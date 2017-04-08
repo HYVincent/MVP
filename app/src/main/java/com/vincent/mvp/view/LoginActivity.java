@@ -11,21 +11,24 @@ import com.vincent.mvp.R;
 import com.vincent.mvp.base.BaseActivity;
 import com.vincent.mvp.customview.LoadingDialog;
 import com.vincent.mvp.presenter.LoginPresenter;
+import com.vise.log.ViseLog;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener,ILoginView {
 
     private EditText account,password;
-    private Button login;
+    private Button login1,login2;
     private LoginPresenter presenter;
-
+    private long start = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         account = (EditText)findViewById(R.id.et_account);
         password = (EditText)findViewById(R.id.et_password);
-        login = (Button)findViewById(R.id.btn_login);
-        login.setOnClickListener(this);
+        login1 = (Button)findViewById(R.id.btn_login_1);
+        login2 = (Button)findViewById(R.id.btn_login_2);
+        login1.setOnClickListener(this);
+        login2.setOnClickListener(this);
         presenter = new LoginPresenter(this);
     }
 
@@ -33,8 +36,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_login:
+            case R.id.btn_login_1:
+                start = System.currentTimeMillis();
                 presenter.login(account.getText().toString().trim(),password.getText().toString().trim());
+                break;
+            case R.id.btn_login_2:
+                start = System.currentTimeMillis();
+                presenter.login2(account.getText().toString().trim(),password.getText().toString().trim());
                 break;
         }
     }
@@ -47,7 +55,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_LONG).show();
             }
         });
-
+        ViseLog.d("请求所用时间："+(System.currentTimeMillis()-start)+"ms");
     }
 
     @Override
@@ -58,6 +66,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 Toast.makeText(LoginActivity.this,msg,Toast.LENGTH_LONG).show();
             }
         });
+        ViseLog.d("请求所用时间："+(System.currentTimeMillis()-start)+"ms");
     }
 
 }

@@ -24,9 +24,16 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/btn_login"
-        android:text="登录"
+        android:id="@+id/btn_login_1"
+        android:text="登录(正常方式)"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_login_2"
+        android:text="登录(RxJava)"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 
 </LinearLayout>

@@ -18,4 +18,11 @@ public interface ILogonPresenter {
      */
     void login(String account,String password);
 
+    /**
+     * 登录
+     * @param account
+     * @param password
+     */
+    void login2(String account,String password);
+
 }

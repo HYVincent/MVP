@@ -20,13 +20,13 @@ public interface ILoginModel {
      * 请求服务器，登录
      * @param userBean
      */
-    Result login(UserBean userBean);
+    void login(UserBean userBean, LoginModel.LoginListener loginListener);
 
     /**
      * 登录
      * @param userBean
      * @return
      */
-    Subscription login2(UserBean userBean, LoginModel.LoginListener loginListener);
+    Subscription login2(UserBean userBean,LoginModel.LoginListener loginListener);
 
 }

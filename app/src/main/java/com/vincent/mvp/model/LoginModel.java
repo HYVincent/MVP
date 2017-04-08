@@ -1,10 +1,14 @@
 package com.vincent.mvp.model;
 
+import com.alibaba.fastjson.JSON;
 import com.vincent.mvp.bean.UserBean;
 import com.vincent.mvp.nework.Result;
 import com.vincent.mvp.nework.RetrofitUtils;
 import com.vise.log.ViseLog;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
@@ -26,10 +30,22 @@ public class LoginModel implements ILoginModel {
     private LoginListener loginListener;
 
     @Override
-    public Result login(UserBean userBean) {
+    public void login(UserBean userBean, final LoginListener loginListener) {
         //TODO 请求服务器，登录
-//        Observable observable = new Observable()
-        return null;
+        Result result = null;
+        Call call = RetrofitUtils.getApiService().login1(userBean.username,userBean.password);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                Result result = JSON.parseObject(JSON.toJSONString(response.body()),Result.class);
+                loginListener.loginResult(result);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                loginListener.loginFaile(t);
+            }
+        });
     }
 
     @Override

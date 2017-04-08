@@ -34,38 +34,58 @@ public class LoginPresenter extends BasePresenter implements ILogonPresenter{
     @Override
     public void login(String account, String password) {
         loginView.loading("正在登录");
+        UserBean userBean = initUser(account,password);
+        //result 登录结果处理
+        loginModel.login(userBean, new LoginModel.LoginListener() {
+            @Override
+            public void loginResult(Result result) {
+                if(result.getStatus().equals("1")){
+                    loginView.loginSuccess();
+                }else {
+                    loginView.loginFail(result.getMsg());
+                }
+                loginView.closeLoading();
+            }
+
+            @Override
+            public void loginFaile(Throwable throwable) {
+//                loginView.loginFail(throwable.getMessage());
+                loginView.loginFail("请求失败");
+            }
+        });
+    }
+
+    @Override
+    public void login2(String account, String password) {
+        loginView.loading("正在登录");
+        UserBean userBean = initUser(account,password);
+        Subscription subscription = loginModel.login2(userBean, new LoginModel.LoginListener() {
+            @Override
+            public void loginResult(Result result) {
+                if(result.getStatus().equals("1")){
+                    loginView.loginSuccess();
+                }else {
+                    loginView.loginFail(result.getMsg());
+                }
+            }
+
+            @Override
+            public void loginFaile(Throwable throwable) {
+                ViseLog.e(throwable);
+                loginView.loginFail("请求错误");
+            }
+        });
+        addSubscription(subscription);
+    }
+
+    private UserBean initUser(String account,String password){
         UserBean userBean = null;
         if(TextUtils.isEmpty(account)){
             userBean = new UserBean("18696855784","555555");
         }else {
             userBean = new UserBean(account,password);
         }
-
-        //result 登录结果处理
-        /*Result result = loginModel.login(userBean);
-        if(result.getStatus().equals("1")){
-            loginView.loginSuccess();
-        }else {
-            loginView.loginFail(result.getMsg());
-        }
-        loginView.closeLoading();*/
-
-        Subscription subscription = loginModel.login2(userBean, new LoginModel.LoginListener() {
-           @Override
-           public void loginResult(Result result) {
-               if(result.getStatus().equals("1")){
-                   loginView.loginSuccess();
-               }else {
-                    loginView.loginFail(result.getMsg());
-               }
-           }
-
-           @Override
-           public void loginFaile(Throwable throwable) {
-               ViseLog.e(throwable);
-                loginView.loginFail("请求错误");
-           }
-       });
-        addSubscription(subscription);
+        return userBean;
     }
+
 }
