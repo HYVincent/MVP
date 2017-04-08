@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.vincent.mvp.view.LoginActivity">
+
+   <EditText
+       android:id="@+id/et_account"
+       android:hint="账号 默认是18696855784"
+       android:inputType="number"
+       android:paddingLeft="15dp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+
+    <EditText
+        android:hint="密码 默认是444444"
+        android:inputType="textPassword"
+        android:paddingLeft="15dp"
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:text="登录"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
